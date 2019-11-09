@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
+    private bool onTramp=false;
 
     private Rigidbody rb;
     // Start is called before the first frame update
@@ -27,6 +28,14 @@ public class PlayerController : MonoBehaviour
         
         //make it a Unit Vector so that the total magnitude is moveSpeed
         movement.Normalize();
+        if (onTramp)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                rb.AddForce(new Vector3(0,4,0),ForceMode.Impulse);
+                
+            }
+        }
 
 
 
@@ -36,6 +45,24 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        GameController.startSlowMo(2,0.5f);
+        if (other.transform.CompareTag("Trampoline"))
+        {
+            onTramp = true;
+            GameController.startSlowMo(1f,0.2f);
+            
+            
+        }
+        
+        
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.transform.parent.CompareTag("Trampoline"))
+        {
+            onTramp = false;
+            
+        }
+            
     }
 }

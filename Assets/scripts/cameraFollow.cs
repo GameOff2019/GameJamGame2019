@@ -58,7 +58,13 @@ public class cameraFollow : MonoBehaviour
     private void Update()
     {
         fpsCamera();
-        transform.position = player.transform.position + offset;
+        if (!Physics.CheckSphere(player.transform.position + offset, 3))
+        {
+            transform.position = player.transform.position + offset;
+            
+        }
+        
+        
 
 
 
