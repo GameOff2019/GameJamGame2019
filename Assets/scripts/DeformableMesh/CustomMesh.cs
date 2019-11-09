@@ -6,7 +6,7 @@ using UnityEngine;
 public class CustomMesh : MonoBehaviour {
 
     public int x_size, y_size;
-    public float x_cell_size, y_cell_size;
+    //public float x_cell_size, y_cell_size; // no need for this as we can just use tran
 
     private Vector3[] vertices;
     private Mesh mesh;
@@ -26,8 +26,8 @@ public class CustomMesh : MonoBehaviour {
         Vector2[] uv = new Vector2[vertices.Length];
         for (int i = 0, y = 0; y <= y_size; y++) {
             for (int x = 0; x <= x_size; x++, i++) {
-                vertices[i] = new Vector3(x * x_cell_size, y * y_cell_size, 0);
-                uv[i] = new Vector2(x * x_cell_size / x_size, y * y_cell_size / y_size);
+                vertices[i] = new Vector3(x, y, 0);
+                uv[i] = new Vector2((float)x/x_size, (float)y/y_size);
             }
         }
 
@@ -62,6 +62,7 @@ public class CustomMesh : MonoBehaviour {
     }
 
     private void OnDrawGizmos() {
+        if (vertices == null) { return; }
         Vector3 t_pos = transform.position;
         Gizmos.color = Color.blue;
         foreach (Vector3 pos in vertices) {
