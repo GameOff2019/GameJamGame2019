@@ -26,7 +26,7 @@ public class CustomMesh : MonoBehaviour {
         Vector2[] uv = new Vector2[vertices.Length];
         for (int i = 0, y = 0; y <= y_size; y++) {
             for (int x = 0; x <= x_size; x++, i++) {
-                vertices[i] = new Vector3(x, y, 0);
+                vertices[i] = new Vector3(x, y, Random.Range(-0.2f,0.2f));
                 uv[i] = new Vector2((float)x/x_size, (float)y/y_size);
             }
         }

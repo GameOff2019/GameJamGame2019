@@ -6,8 +6,10 @@ using UnityEngine;
 public class CustomCube : MonoBehaviour {
 
     public int x_size, y_size, z_size;
+    public int roundness;
 
     private Vector3[] vertices;
+    private Vector3[] normals;
     private Mesh mesh;
 
     void Awake() {
@@ -26,11 +28,14 @@ public class CustomCube : MonoBehaviour {
         int corners = 8;
         int edges = 4*(x_size + y_size + z_size - 3);
         int faces = 2*((x_size - 1) * (y_size - 1) + (x_size - 1) * (z_size - 1) + (y_size - 1) * (z_size - 1));
+
         vertices = new Vector3[corners + edges + faces];
+        normals = new Vector3[vertices.Length];
 
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
         mesh.vertices = vertices;
+        mesh.normals = normals;
 
         //Set vertice position
         int c = 0;
@@ -64,6 +69,12 @@ public class CustomCube : MonoBehaviour {
         mesh.vertices = vertices;
         mesh.triangles = triangles;
     }
+
+    /*
+    private void SetVertex(int c, int x, int y, int z) {
+        vertices[c] = new Vector3(x, y, z);
+    }
+    */
 
     private int[] GenerateTriangles() {
         //Generate Triangles
@@ -171,10 +182,15 @@ public class CustomCube : MonoBehaviour {
     private void OnDrawGizmos() {
         if (vertices == null) { return; }
         Vector3 t_pos = transform.position;
-        Gizmos.color = Color.blue;
-        foreach (Vector3 pos in vertices) {
-            if (pos == null) { continue; }
+        for (int i = 0; i < vertices.Length; i++) {
+            Vector3 pos = vertices[i];
+            Vector3 norm = normals[i];
+            //if (pos == null) { continue; }
+            Gizmos.color = Color.blue;
             Gizmos.DrawSphere(new Vector3(t_pos.x + pos.x, t_pos.y + pos.y, t_pos.z + pos.z), 0.05f);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(pos, norm);
         }
     }
 }
