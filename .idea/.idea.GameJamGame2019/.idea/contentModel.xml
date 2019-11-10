@@ -9,7 +9,10 @@
           <e p="cameraFollow.cs" t="Include" />
           <e p="ColorScript.cs" t="Include" />
           <e p="GameController.cs" t="Include" />
+          <e p="Item.cs" t="Include" />
+          <e p="Letter.cs" t="Include" />
           <e p="LeverTimer.cs" t="Include" />
+          <e p="PlayerCollision.cs" t="Include" />
           <e p="PlayerController.cs" t="Include" />
           <e p="Spin.cs" t="Include" />
           <e p="Wall.cs" t="Include" />

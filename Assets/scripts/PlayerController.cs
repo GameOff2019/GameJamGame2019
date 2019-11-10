@@ -6,13 +6,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
-    private bool onTramp=false;
 
     private Rigidbody rb;
+
+    private PlayerCollision pc;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        pc = GetComponent<PlayerCollision>();
 
 
     }
@@ -28,41 +30,29 @@ public class PlayerController : MonoBehaviour
         
         //make it a Unit Vector so that the total magnitude is moveSpeed
         movement.Normalize();
-        if (onTramp)
+        if (pc.onTramp)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                rb.AddForce(new Vector3(0,4,0),ForceMode.Impulse);
-                
+                rb.AddForce(new Vector3(0,moveSpeed,0),ForceMode.Impulse);
             }
         }
 
 
-
-        rb.AddForce(movement.x * moveSpeed, 0, movement.z * moveSpeed);
-
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.transform.CompareTag("Trampoline"))
+        if (GameController.instance.slowDownDuration > 0)
         {
-            onTramp = true;
-            GameController.startSlowMo(1f,0.2f);
-            
+            rb.AddForce(movement.x * moveSpeed*6, 0, movement.z * moveSpeed*6);
             
         }
+        else
+        {
+            rb.AddForce(movement.x * moveSpeed, 0, movement.z * moveSpeed);
+        }
         
-        
+        //set a maxSpeed so that movement doesnt go out of control
+        //rb.velocity=new Vector3(Mathf.Clamp(rb.velocity.x,-7,7),Mathf.Clamp(rb.velocity.y,-7,7),Mathf.Clamp(rb.velocity.z,-7,7));
+
     }
 
-    private void OnCollisionExit(Collision other)
-    {
-        if (other.transform.parent.CompareTag("Trampoline"))
-        {
-            onTramp = false;
-            
-        }
-            
-    }
+    
 }

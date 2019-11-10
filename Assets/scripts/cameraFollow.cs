@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 public class cameraFollow : MonoBehaviour
 {
@@ -58,13 +60,17 @@ public class cameraFollow : MonoBehaviour
     private void Update()
     {
         fpsCamera();
-        if (!Physics.CheckSphere(player.transform.position + offset, 1))
+        transform.position = player.transform.position + offset;
+        if (Physics.CheckSphere(player.transform.position + offset, 0.5f))
         {
-            transform.position = player.transform.position + offset;
+            Physics.RaycastAll(transform.position, transform.forward,
+                Vector3.Distance(transform.position, player.transform.position));
             
+
+
         }
-        
-        
+
+
 
 
 

@@ -113,12 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &287622019 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1676995459515273475, guid: 0eb033473d2be40e2958f37a0b128540,
-    type: 3}
-  m_PrefabInstance: {fileID: 2068077343}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &396227278
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -415,7 +409,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 869806143}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 06e029261c7cf4279ba0d5d62aa4a96e, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -543,13 +537,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1140723746}
-  m_LocalRotation: {x: 0.12278779, y: -0.6963643, z: 0.12278779, w: 0.6963643}
-  m_LocalPosition: {x: 2.516, y: 8.08, z: 12.08}
+  m_LocalRotation: {x: 0.18301274, y: -0.6830127, z: 0.18301274, w: 0.6830127}
+  m_LocalPosition: {x: 4.025, y: 8.964, z: 12.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 20, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 30, y: -90, z: 0}
 --- !u!114 &1140723750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -562,7 +556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 929a5cea22bb84fbe88dad6177a3ffe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 287622019}
+  player: {fileID: 1348425938}
   axes: 0
   sensitivityX: 15
   sensitivityY: 15
@@ -570,6 +564,25 @@ MonoBehaviour:
   maximumX: 360
   minimumY: -60
   maximumY: 60
+--- !u!1 &1348425938 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1676995459515273475, guid: 0eb033473d2be40e2958f37a0b128540,
+    type: 3}
+  m_PrefabInstance: {fileID: 2068077343}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1348425945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348425938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 811099e1577d421fa1bb125c72566330, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onTramp: 0
 --- !u!1001 &1622018089
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -865,7 +878,23 @@ PrefabInstance:
     - target: {fileID: 4901108807988011003, guid: 0eb033473d2be40e2958f37a0b128540,
         type: 3}
       propertyPath: moveSpeed
-      value: 4
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 1676995459515273474, guid: 0eb033473d2be40e2958f37a0b128540,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 0d337f47892ed42ad90f88d2a23e86ac,
+        type: 2}
+    - target: {fileID: 1676995459515273486, guid: 0eb033473d2be40e2958f37a0b128540,
+        type: 3}
+      propertyPath: m_Mass
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 1676995459515273486, guid: 0eb033473d2be40e2958f37a0b128540,
+        type: 3}
+      propertyPath: m_Drag
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eb033473d2be40e2958f37a0b128540, type: 3}
@@ -939,7 +968,7 @@ PrefabInstance:
     - target: {fileID: 7859047975707047157, guid: 63a4a2affc401f24bb7260eb4d27e837,
         type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Trampoline
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63a4a2affc401f24bb7260eb4d27e837, type: 3}
