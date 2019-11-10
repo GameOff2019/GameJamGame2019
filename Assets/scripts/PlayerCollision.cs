@@ -14,7 +14,7 @@ public class PlayerCollision : MonoBehaviour
         { 
             case "Trampoline": 
                 onTramp = true;
-                GameController.startSlowMo(0.9f,0.2f);
+                //GameController.startSlowMo(0.2f,0.9f);
                 break;
             case "Item":
                 gameObject.GetComponent<Item>().Collect();

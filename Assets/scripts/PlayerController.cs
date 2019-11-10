@@ -39,18 +39,13 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (GameController.instance.slowDownDuration > 0)
-        {
-            rb.AddForce(movement.x * moveSpeed*6, 0, movement.z * moveSpeed*6);
-            
-        }
-        else
-        {
-            rb.AddForce(movement.x * moveSpeed, 0, movement.z * moveSpeed);
-        }
+        
+        
+        rb.AddForce(movement.x * moveSpeed, 0, movement.z * moveSpeed);
+        
         
         //set a maxSpeed so that movement doesnt go out of control
-        //rb.velocity=new Vector3(Mathf.Clamp(rb.velocity.x,-7,7),Mathf.Clamp(rb.velocity.y,-7,7),Mathf.Clamp(rb.velocity.z,-7,7));
+        //rb.velocity=new Vector3(Mathf.Clamp(rb.velocity.x,-5,5),Mathf.Clamp(rb.velocity.y,-5,5),Mathf.Clamp(rb.velocity.z,-5,5));
 
     }
 

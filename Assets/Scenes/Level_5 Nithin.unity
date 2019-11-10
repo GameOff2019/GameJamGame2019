@@ -878,18 +878,18 @@ PrefabInstance:
     - target: {fileID: 4901108807988011003, guid: 0eb033473d2be40e2958f37a0b128540,
         type: 3}
       propertyPath: moveSpeed
-      value: 300
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1676995459515273474, guid: 0eb033473d2be40e2958f37a0b128540,
         type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 13400000, guid: 0d337f47892ed42ad90f88d2a23e86ac,
+      objectReference: {fileID: 13400000, guid: 3a855b361e93e48fe8070bb4542fc264,
         type: 2}
     - target: {fileID: 1676995459515273486, guid: 0eb033473d2be40e2958f37a0b128540,
         type: 3}
       propertyPath: m_Mass
-      value: 120
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1676995459515273486, guid: 0eb033473d2be40e2958f37a0b128540,
         type: 3}
@@ -970,5 +970,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Trampoline
       objectReference: {fileID: 0}
+    - target: {fileID: 1965919625871930452, guid: 63a4a2affc401f24bb7260eb4d27e837,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 3a855b361e93e48fe8070bb4542fc264,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63a4a2affc401f24bb7260eb4d27e837, type: 3}
