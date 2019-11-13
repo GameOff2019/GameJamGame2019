@@ -34,6 +34,7 @@ public class CustomCube : MonoBehaviour {
 
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
+        //GetComponent<MeshCollider>().sharedMesh = mesh;
         mesh.vertices = vertices;
         mesh.normals = normals;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MeshFilter),typeof(MeshRenderer))]
+[RequireComponent(typeof(MeshFilter),typeof(MeshRenderer),typeof(MeshCollider))]
 public class CustomMesh : MonoBehaviour {
 
     public int x_size, y_size;
@@ -26,13 +26,14 @@ public class CustomMesh : MonoBehaviour {
         Vector2[] uv = new Vector2[vertices.Length];
         for (int i = 0, y = 0; y <= y_size; y++) {
             for (int x = 0; x <= x_size; x++, i++) {
-                vertices[i] = new Vector3(x, y, Random.Range(-0.2f,0.2f));
+                vertices[i] = new Vector3(x, y, 0);
                 uv[i] = new Vector2((float)x/x_size, (float)y/y_size);
             }
         }
 
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
+        GetComponent<MeshCollider>().sharedMesh = mesh;
         mesh.vertices = vertices;
 
         
