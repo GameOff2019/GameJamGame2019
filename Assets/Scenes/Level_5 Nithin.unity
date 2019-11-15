@@ -557,13 +557,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1348425938}
-  axes: 0
-  sensitivityX: 15
-  sensitivityY: 15
-  minimumX: -360
-  maximumX: 360
-  minimumY: -60
-  maximumY: 60
+  MaxViewDistance: 15
+  MinViewDistance: 1
+  ZoomRate: 20
+  cameraTargetHeight: 1
 --- !u!1 &1348425938 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1676995459515273475, guid: 0eb033473d2be40e2958f37a0b128540,
@@ -894,7 +891,7 @@ PrefabInstance:
     - target: {fileID: 1676995459515273486, guid: 0eb033473d2be40e2958f37a0b128540,
         type: 3}
       propertyPath: m_Drag
-      value: 0
+      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eb033473d2be40e2958f37a0b128540, type: 3}

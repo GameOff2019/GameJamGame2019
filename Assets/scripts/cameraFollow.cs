@@ -1,79 +1,113 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
-using UnityEngine;
-using Vector3 = UnityEngine.Vector3;
-
-public class cameraFollow : MonoBehaviour
-{
-    [SerializeField] private GameObject player;
-    private Rigidbody pRb;
-    private Vector3 offset;
-    public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
-    public RotationAxes axes = RotationAxes.MouseXAndY;
-    public float sensitivityX = 10F;
-    public float sensitivityY = 10F;
-
-    public float minimumX = -360F;
-    public float maximumX = 360F;
-
-    public float minimumY = -60F;
-    public float maximumY = 60F;
-
-    float rotationY = 0F;
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        pRb = player.GetComponent<Rigidbody>();
-        offset = transform.position - player.transform.position;
+﻿using UnityEngine;
+using System.Collections;
+ 
+public class cameraFollow : MonoBehaviour {
+    public GameObject player;
+    private float x = 0.0f;
+    private float y = 0.0f;
+ 
+    private int mouseXSpeedMod = 30;
+    private int mouseYSpeedMod = 30;
+ 
+    public float MaxViewDistance = 15f;
+    public float MinViewDistance = 1f;
+    public int ZoomRate = 20;
+    private int lerpRate = 5;
+    private float distance = 3f;
+    private float desireDistance;
+    private float correctedDistance;
+    private float currentDistance;
+ 
+    public float cameraTargetHeight = 1.0f;
+ 
+    //checks if first person mode is on
+    private bool click = false;
+    //stores cameras distance from player
+    private float curDist = 0;
+ 
+    // Use this for initialization
+    void Start () {
+        Vector3 Angles = transform.eulerAngles;
+        x = Angles.x;
+        y = Angles.y;
+        currentDistance = distance;
+        desireDistance = distance;
+        correctedDistance = distance;
+    }
+   
+    // Update is called once per frame
+    void LateUpdate () {
         
-
+        x += Input.GetAxis("Mouse X") * mouseXSpeedMod;
+        y -= Input.GetAxis("Mouse Y") * mouseYSpeedMod;
+ 
+        y = ClampAngle (y, -25, 25);
+        Quaternion rotation = Quaternion.Euler (y,x,0);
+ 
+        desireDistance -= Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * ZoomRate * Mathf.Abs(desireDistance);
+        desireDistance = Mathf.Clamp (desireDistance, MinViewDistance, MaxViewDistance);
+        correctedDistance = desireDistance;
+ 
+        Vector3 position = player.transform.position - (rotation * Vector3.forward * desireDistance);
+ 
+        RaycastHit collisionHit;
+        Vector3 cameraTargetPosition = new Vector3 (player.transform.position.x, player.transform.position.y + cameraTargetHeight, player.transform.position.z);
+ 
+        bool isCorrected = false;
+        if (Physics.Linecast (cameraTargetPosition, position, out collisionHit)) {
+            position = collisionHit.point;
+            correctedDistance = Vector3.Distance(cameraTargetPosition,position);
+            isCorrected = true;
+        }
+ 
+        //?
+        //condicion ? first_expresion : second_expresion;
+        //(input > 0) ? isPositive : isNegative;
+ 
+        currentDistance = !isCorrected || correctedDistance > currentDistance ? Mathf.Lerp(currentDistance,correctedDistance,Time.deltaTime * ZoomRate) : correctedDistance;
+ 
+        position = player.transform.position - (rotation * Vector3.forward * currentDistance + new Vector3 (0, -cameraTargetHeight, 0));
+ 
+        transform.rotation = rotation;
+        transform.position = position;
+ 
+        //player.transform.rotation = rotation;
+ 
+        float cameraX = transform.rotation.x;
+        //checks if right mouse button is pushed
+        if(Input.GetMouseButton(1))
+        {
+            //sets CHARACTERS x rotation to match cameras x rotation
+            player.transform.eulerAngles = new Vector3(cameraX,transform.eulerAngles.y,transform.eulerAngles.z);
+        }
+        //checks if middle mouse button is pushed down
+        if(Input.GetMouseButtonDown(2))
+        {
+            //if middle mouse button is pressed 1st time set click to true and camera in front of player and save cameras position before mmb.
+            //if mmb is pressed again set camera back to it's position before we clicked mmb 1st time and set click to false
+            if(click == false)
+            {
+                click = true;
+                curDist = distance;
+                distance = distance - distance - 1;
+            }
+            else
+            {
+                distance = curDist;
+                click = false;
+            }
+        }
+ 
     }
-
-    //copied directly from internet
-    void fpsCamera()
+ 
+    private static float ClampAngle(float angle, float min, float max)
     {
-        if (axes == RotationAxes.MouseXAndY)
-        {
-            float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
-
-            rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-            rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-
-            transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+        if (angle < -360) {
+            angle += 360;      
         }
-        else if (axes == RotationAxes.MouseX)
-        {
-            transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
+        if (angle > 360) {
+            angle -= 360;      
         }
-        else
-        {
-            rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-            rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-
-            transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
-        }
-    }
-
-    
-    private void Update()
-    {
-        fpsCamera();
-        transform.position = player.transform.position + offset;
-        if (Physics.CheckSphere(player.transform.position + offset, 0.5f))
-        {
-            Physics.RaycastAll(transform.position, transform.forward,
-                Vector3.Distance(transform.position, player.transform.position));
-            
-
-
-        }
-
-
-
-
-
-
+        return Mathf.Clamp (angle,min,max);
     }
 }

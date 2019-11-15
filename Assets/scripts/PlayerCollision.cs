@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
-    public bool onTramp = false;
+    private PlayerController pc;
+    public bool onTramp;
     void Start()
     {
-        
+        pc = GetComponent<PlayerController>();
+
     }
     private void OnCollisionEnter(Collision other)
     {
@@ -14,7 +16,8 @@ public class PlayerCollision : MonoBehaviour
         { 
             case "Trampoline": 
                 onTramp = true;
-                //GameController.startSlowMo(0.2f,0.9f);
+                pc.numJumps = pc.maxJumps;
+                GameController.startSlowMo(0.9f,0.7f);
                 break;
             case "Item":
                 gameObject.GetComponent<Item>().Collect();

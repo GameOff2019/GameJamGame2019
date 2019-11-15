@@ -6,15 +6,18 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
+    public int maxJumps=2;
 
     private Rigidbody rb;
-
-    private PlayerCollision pc;
+    private PlayerCollision pCol;
+    public int numJumps;
+    
+    
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        pc = GetComponent<PlayerCollision>();
+        pCol = GetComponent<PlayerCollision>();
 
 
     }
@@ -30,11 +33,23 @@ public class PlayerController : MonoBehaviour
         
         //make it a Unit Vector so that the total magnitude is moveSpeed
         movement.Normalize();
-        if (pc.onTramp)
+        if (pCol.onTramp)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                
                 rb.AddForce(new Vector3(0,moveSpeed,0),ForceMode.Impulse);
+            }
+            
+            
+        }
+        if (numJumps>0)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                
+                rb.AddForce(new Vector3(0,moveSpeed/2,0),ForceMode.Impulse);
+                numJumps -= 1;
             }
         }
 
