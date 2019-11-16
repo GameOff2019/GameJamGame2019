@@ -11,13 +11,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private PlayerCollision pCol;
     public int numJumps;
-    
+    private Animator _animator;
     
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         pCol = GetComponent<PlayerCollision>();
+        _animator = GetComponent<Animator>();
 
 
     }
@@ -38,7 +39,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 
-                rb.AddForce(new Vector3(0,moveSpeed,0),ForceMode.Impulse);
+                rb.AddForce(new Vector3(0,moveSpeed/3,0),ForceMode.Impulse);
             }
             
             
@@ -48,14 +49,36 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 
-                rb.AddForce(new Vector3(0,moveSpeed/2,0),ForceMode.Impulse);
+                rb.AddForce(new Vector3(0,moveSpeed/3,0),ForceMode.Impulse);
                 numJumps -= 1;
             }
         }
 
+        float dir = 0;
+        int l = 0;
+        if (x != 0)
+        {
+            l += 1;
+            dir += Mathf.Sign(x) * 90;
 
-        
-        
+
+
+        }
+        if (z != 0)
+        {
+            l += 1;
+            dir +=  z<0? 180:0;
+
+        }
+
+        if (l > 0)
+        {
+            dir /= l;
+        }
+
+        _animator.SetInteger("velGrounded", (int) (z + x));
+
+        transform.rotation=Quaternion.Euler(new Vector3(0,Camera.main.transform.rotation.eulerAngles.y+dir,0));
         rb.AddForce(movement.x * moveSpeed, 0, movement.z * moveSpeed);
         
         
