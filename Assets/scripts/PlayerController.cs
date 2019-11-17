@@ -6,80 +6,84 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
-    public int maxJumps=2;
+    [SerializeField] float jumpHeight;
+    [SerializeField] private bool startedJump=false;
 
     private Rigidbody rb;
-    private PlayerCollision pCol;
-    public int numJumps;
     private Animator _animator;
+    public bool isJumping;
+    private Vector3 axisInput;
+    private RaycastHit hit;
     
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        pCol = GetComponent<PlayerCollision>();
         _animator = GetComponent<Animator>();
+        
 
 
+    }
+
+    private void Update()
+    {
+        axisInput.x = Input.GetAxis("Horizontal");
+        
+        axisInput.z = Input.GetAxis("Vertical");
+        // check grounded
+        isJumping = !Physics.Raycast(transform.position, Vector3.down, out hit, .5f);
+        if (isJumping)
+        {
+            _animator.SetInteger("velGrounded", 0);
+        }
+        else
+        {
+            _animator.SetInteger("velGrounded", (int) (axisInput.z + axisInput.x));
+        }
+        
+        _animator.SetBool("isJumping", isJumping);
+        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        float x = Input.GetAxis("Horizontal");
         
-        float z = Input.GetAxis("Vertical");
         //right hand rule to get perp vector
-        Vector3 movement = Vector3.Cross(Camera.main.transform.forward,Vector3.down)*x+Camera.main.transform.forward*z;
+        Vector3 movement = Vector3.Cross(Camera.main.transform.forward,Vector3.down)*axisInput.x+Camera.main.transform.forward*axisInput.z;
         
         //make it a Unit Vector so that the total magnitude is moveSpeed
         movement.Normalize();
-        if (pCol.onTramp)
+        // check jump
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                
-                rb.AddForce(new Vector3(0,moveSpeed/3,0),ForceMode.Impulse);
-            }
-            
-            
-        }
-        if (numJumps>0)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                
-                rb.AddForce(new Vector3(0,moveSpeed/3,0),ForceMode.Impulse);
-                numJumps -= 1;
-            }
+            startedJump = true;
+            rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2 * Physics.gravity.y), ForceMode.VelocityChange);
         }
 
         float dir = 0;
         int l = 0;
-        if (x != 0)
+        if (axisInput.x != 0)
         {
             l += 1;
-            dir += Mathf.Sign(x) * 90;
-
-
-
+            dir += Mathf.Sign(axisInput.x) * 90;
         }
-        if (z != 0)
+        if (axisInput.z != 0)
         {
             l += 1;
-            dir +=  z<0? 180:0;
-
+            dir +=  axisInput.z<0? 180:0;
         }
-
+        //integer division by zero lol
         if (l > 0)
         {
             dir /= l;
         }
-
-        _animator.SetInteger("velGrounded", (int) (z + x));
-
         transform.rotation=Quaternion.Euler(new Vector3(0,Camera.main.transform.rotation.eulerAngles.y+dir,0));
         rb.AddForce(movement.x * moveSpeed, 0, movement.z * moveSpeed);
+        
+        
+
+        
         
         
         //set a maxSpeed so that movement doesnt go out of control
@@ -87,5 +91,13 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    
+    private void OnCollisionEnter(Collision other)
+    {
+        if (!other.gameObject.CompareTag("Trampoline")&&startedJump)
+        {
+            Destroy(gameObject);
+            
+        }
+
+    }
 }
