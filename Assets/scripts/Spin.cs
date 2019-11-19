@@ -8,18 +8,12 @@ public class Spin : MonoBehaviour
     [SerializeField] private float angularSpeed;
     private Rigidbody rb;
     void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        rb.angularVelocity.Set(0,angularSpeed,0 );
+    { }
 
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        
-        
-        
-        
+        transform.Rotate(new Vector3(0,0,angularSpeed));
     }
+
+    
 }
