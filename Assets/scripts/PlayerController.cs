@@ -93,11 +93,23 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        //if (!other.gameObject.CompareTag("Trampoline")&&startedJump)
-        //{
-        //    Destroy(gameObject);
+        switch (other.gameObject.tag)
+        {
+        case "Trampoline":
+            break;
+        case "Item":
+            other.gameObject.GetComponent<Item>().Collect();
+            break;
+        default:
+            if (startedJump && isJumping)
+            {
+                Destroy(gameObject);
+            }
+
+            break;
             
-        //}
+            
+        }
 
     }
 }
