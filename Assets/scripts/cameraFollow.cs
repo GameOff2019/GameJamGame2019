@@ -5,9 +5,9 @@ public class cameraFollow : MonoBehaviour {
     public GameObject player;
     private float x = 0.0f;
     private float y = 0.0f;
- 
-    private int mouseXSpeedMod = 30;
-    private int mouseYSpeedMod = 30;
+
+    public int mouseXSpeedMod;
+    public int mouseYSpeedMod;
  
     public float MaxViewDistance = 15f;
     public float MinViewDistance = 1f;

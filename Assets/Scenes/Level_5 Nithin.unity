@@ -547,12 +547,12 @@ PrefabInstance:
     - target: {fileID: 3139967177447246523, guid: 9e4fd9c33a300488c933772f037cf27e,
         type: 3}
       propertyPath: moveSpeed
-      value: 70
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 3139967177447246523, guid: 9e4fd9c33a300488c933772f037cf27e,
         type: 3}
       propertyPath: jumpHeight
-      value: 0.5
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3139967177447246522, guid: 9e4fd9c33a300488c933772f037cf27e, type: 3}
@@ -653,6 +653,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 438182573}
+  mouseXSpeedMod: 5
+  mouseYSpeedMod: 5
   MaxViewDistance: 15
   MinViewDistance: 1
   ZoomRate: 20
