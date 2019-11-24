@@ -20,13 +20,17 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.timeScale != 1)
+
+        if (slowDownDuration > 0)
         {
-            Time.timeScale = Mathf.Clamp(Time.timeScale+(1f / slowDownDuration) * Time.unscaledDeltaTime,0,1);
-            //Time.fixedDeltaTime = Time.timeScale * 0.2f;
+            slowDownDuration -= Time.unscaledDeltaTime;
             
         }
-        
+        else
+        {
+            Time.timeScale = 1;
+        }
+
 
 
 
@@ -37,8 +41,7 @@ public class GameController : MonoBehaviour
     public static void startSlowMo(float duration,float speed)
     {
         Time.timeScale = speed;
-        Time.fixedDeltaTime = Time.timeScale * 0.2f;
-        
+
         instance.slowDownDuration = duration;
         
         
